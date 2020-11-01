@@ -27,10 +27,7 @@ class SubWindow(tk.Toplevel):
 class MainWindow(tk.Tk):
     def __init__(self):
         super().__init__()
-
-        # Constants
         
-
         # Window
         self.geometry("600x300+630+200")
         self.resizable(False, False)
