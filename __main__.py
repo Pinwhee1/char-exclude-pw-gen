@@ -10,6 +10,7 @@ BG = "#EFEFEF"
 FG = "#3B413C"
 REL_STYLE = "groove"
 DEFAULT_DISALLOWED = "{}[]()#$%^&*`,./?\\|\'\";:+~="
+ICON = "pinwheel.ico"
 
 
 class SubWindow(tk.Toplevel):
@@ -21,6 +22,7 @@ class SubWindow(tk.Toplevel):
         self.resizable(False, False)
         self.title("Help")
         self.configure(bg=BG)
+        self.iconbitmap(ICON)
 
 class MainWindow(tk.Tk):
     def __init__(self):
@@ -34,6 +36,7 @@ class MainWindow(tk.Tk):
         self.resizable(False, False)
         self.title("Password Generator")
         self.configure(bg=BG)
+        self.iconbitmap(ICON)
 
         # Labels
         self.pw_display = tk.Label(
