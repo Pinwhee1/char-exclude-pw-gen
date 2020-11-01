@@ -14,13 +14,13 @@ ICON = "pinwheel.ico"
 
 
 class SubWindow(tk.Toplevel):
-    def __init__(self):
+    def __init__(self, title, geometry):
         super().__init__()
 
         # Window
-        self.geometry("600x100+630+70")
+        self.geometry(geometry)
         self.resizable(False, False)
-        self.title("Help")
+        self.title(title)
         self.configure(bg=BG)
         self.iconbitmap(ICON)
 
@@ -93,7 +93,7 @@ class MainWindow(tk.Tk):
             self.pw = pw
 
     def open_help(self):
-        help_window = SubWindow()
+        help_window = SubWindow("Help", "600x100+630+70")
         tk.Label(
             help_window,
             text="Fill 'To Exclude' with any characters you don't want to be in your password.",
