@@ -1,4 +1,5 @@
 import tkinter as tk
+import tkinter.messagebox
 from tkinter.font import Font
 import random
 import pyperclip
@@ -45,7 +46,7 @@ class MainWindow(tk.Tk):
             self.pw_display = tk.Entry(
                 self, relief=REL_STYLE, font=Font(size=12))
             self.pw_display.place(anchor="n", relwidth=0.6, relx=0.5, rely=0.35)
-            self.pw_display.insert(0, "Passowrd will appear here (Chr limit: 24)")
+            self.pw_display.insert(0, "Password will appear here (Chr limit: 24)")
 
         self.disallowed_label = tk.Label(
             self, text="To exclude:", font=Font(size=16), bg=BG, fg=FG)
@@ -63,9 +64,9 @@ class MainWindow(tk.Tk):
         self.generate.place(anchor="n", relx=0.5, rely=0.5, relwidth=1, relheight=0.2)
 
         self.copy_pw = tk.Button(
-            self, text="Copy to clipboard" if os.name=="nt" else "Disabled on linux",
-            font=Font(size=16), bg=BG, fg=FG, state=tk.ENABLED if os.name=="nt" else tk.DISABLED,
-            relief=REL_STYLE, command=lambda: pyperclip.copy(self.pw))
+            self, text="Copy to clipboard", font=Font(size=16), bg=BG, fg=FG, relief=REL_STYLE,
+            command=(lambda: pyperclip.copy(self.pw)) if os.name=="nt" else (lambda: tkinter.messagebox.showinfo(
+                title="Disabled!", message="Copying to clipboard is disabled on linux.")))
         self.copy_pw.place(anchor="n", relx=0.5, rely=0.7, relwidth=1, relheight=0.2)
 
         self.help_button = tk.Button(
