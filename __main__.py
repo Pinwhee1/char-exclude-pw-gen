@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter.font import Font
 import random
 import pyperclip
+import os
 
 # only symbols AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz123456789
 
@@ -22,18 +23,18 @@ class SubWindow(tk.Toplevel):
         self.resizable(False, False)
         self.title(title)
         self.configure(bg=BG)
-        self.iconbitmap(ICON)
+        self.iconbitmap(ICON if os.name=="nt" else None)
 
 class MainWindow(tk.Tk):
     def __init__(self):
         super().__init__()
 
         # Window
-        self.geometry("600x300+630+200")
+        self.geometry("600x300+630+250")
         self.resizable(False, False)
         self.title("Password Generator")
         self.configure(bg=BG)
-        self.iconbitmap(ICON)
+        self.iconbitmap(ICON if os.name=="nt" else None)
 
         # Labels
         self.pw_display = tk.Label(
@@ -56,7 +57,8 @@ class MainWindow(tk.Tk):
         self.generate.place(anchor="n", relx=0.5, rely=0.5, relwidth=1, relheight=0.2)
 
         self.copy_pw = tk.Button(
-            self, text="Copy to clipboard", font=Font(size=16), bg=BG, fg=FG,
+            self, text="Copy to clipboard" if os.name=="nt" else "Copying to clipboard doesn't work on linux",
+            font=Font(size=16), bg=BG, fg=FG, state=tk.ENABLED if os.name=="nt" else tk.DISABLED,
             relief=REL_STYLE, command=lambda: pyperclip.copy(self.pw))
         self.copy_pw.place(anchor="n", relx=0.5, rely=0.7, relwidth=1, relheight=0.2)
 
@@ -90,7 +92,7 @@ class MainWindow(tk.Tk):
             self.pw = pw
 
     def open_help(self):
-        help_window = SubWindow("Help", "600x100+630+70")
+        help_window = SubWindow("Help", "600x150+630+70")
         tk.Label(
             help_window,
             text="Fill 'To Exclude' with any characters you don't want to be in your password.",
