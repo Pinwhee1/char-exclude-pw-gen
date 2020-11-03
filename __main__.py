@@ -63,7 +63,7 @@ class MainWindow(tk.Tk):
         self.generate.place(anchor="n", relx=0.5, rely=0.5, relwidth=1, relheight=0.2)
 
         self.copy_pw = tk.Button(
-            self, text="Copy to clipboard" if os.name=="nt" else "Copying to clipboard doesn't work on linux",
+            self, text="Copy to clipboard" if os.name=="nt" else "Disabled on linux",
             font=Font(size=16), bg=BG, fg=FG, state=tk.ENABLED if os.name=="nt" else tk.DISABLED,
             relief=REL_STYLE, command=lambda: pyperclip.copy(self.pw))
         self.copy_pw.place(anchor="n", relx=0.5, rely=0.7, relwidth=1, relheight=0.2)
