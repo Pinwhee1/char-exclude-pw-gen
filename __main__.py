@@ -37,9 +37,15 @@ class MainWindow(tk.Tk):
         self.iconbitmap(ICON if os.name=="nt" else None)
 
         # Labels
-        self.pw_display = tk.Label(
-            self, text="Password will appear here (Max length of 24)", font=Font(size=16), bg=BG, fg=FG)
-        self.pw_display.place(anchor="n", relx=0.5, rely=0.35)
+        if os.name == "nt":
+            self.pw_display = tk.Label(
+                self, text="Password will appear here (Max length of 24)", font=Font(size=16), bg=BG, fg=FG)
+            self.pw_display.place(anchor="n", relx=0.5, rely=0.35)
+        else:
+            self.pw_display = tk.Entry(
+                self, relief=REL_STYLE, font=Font(size=12))
+            self.pw_display.place(anchor="n", relwidth=0.6, relx=0.5, rely=0.35)
+            self.pw_display.insert(0, "Passowrd will appear here (Chr limit: 24)")
 
         self.disallowed_label = tk.Label(
             self, text="To exclude:", font=Font(size=16), bg=BG, fg=FG)
@@ -78,17 +84,23 @@ class MainWindow(tk.Tk):
         self.pw_length.place(anchor="n", relx=0.62, rely=0.14, relwidth=0.66, relheight=0.10)
 
     # Functions
+    def clear_entry_and_insert(self, entry, to_insert):
+        entry.delete(0, "end")
+        entry.insert(0, to_insert)
+
     def generate_password(self):
         allowed_chars = [chr(i) for i in range(33, 127) if chr(i) not in self.disallowed_entry.get()]
         try:
             length = int(self.pw_length.get())
             pw = "".join(random.choices(allowed_chars, k=(length if length<=24 else 8)))
-            self.pw_display["text"] = pw
+            if os.name == "nt": self.pw_display["text"] = pw
+            else: self.clear_entry_and_insert(self.pw_display, pw)
             self.pw = pw
         except ValueError: # as e:
             # print(f"Caught error (Btw hey ace):\n{e}")
             pw = "".join(random.choices(allowed_chars, k=8))
-            self.pw_display["text"] = pw
+            if os.name == "nt": self.pw_display["text"] = pw
+            else: self.clear_entry_and_insert(self.pw_display, pw)
             self.pw = pw
 
     def open_help(self):
